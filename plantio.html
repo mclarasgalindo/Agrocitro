@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Plantio - AgroCitro</title>
+
+    <link rel="stylesheet" href="./css/style.css">
+
+    <style>
+        .container {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .form-box, .table-box {
+                width: 100%;
+            }
+
+            .table-box {
+                max-width: 100%;
+                margin: 0 auto;
+                overflow-x: auto;
+            }
+
+            .table-box table {
+                width: 100%;
+                font-size: 12px;
+                word-wrap: break-word;
+            }
+
+            .table-box th, .table-box td {
+                padding: 6px;
+                white-space: normal;
+            }
+
+            .table-box th {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="logo-bar">
+            <a href="index.html">
+                <div class="logo"><img src="img/Logo.png" alt="logo" width="300px"></div>
+            </a>
+    </div>
+
+    <div class="container">
+        <div class="form-box">
+            <h1>Registrar Plantio</h1>
+            <form id="form-plantio">
+                <div class="form-group">
+                    <label for="variedade">Variedade</label>
+                    <input type="text" name="variedade" id="variedade" placeholder="Ex: Laranja">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="quantidade">Quantidade</label>
+                        <input type="number" name="quantidade" id="quantidade" placeholder="Ex: 100">
+                    </div>
+                    <div class="form-group">
+                        <label for="dataPlantio">Data do Plantio</label>
+                        <input type="date" name="dataPlantio" id="dataPlantio">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="localizacao">Localização</label>
+                    <input type="text" name="localizacao" id="localizacao" placeholder="Ex: Bloco A">
+                </div>
+
+                <button type="submit" class="btn">Registrar</button>
+            </form>
+        </div>
+
+        <div class="table-box">
+            <h1>Lista</h1>
+            <table id="table-02">
+                <thead>
+                    <tr>
+                        <th>Variedade</th>
+                        <th>Quantidade</th>
+                        <th>Data de Plantio</th>
+                        <th>Localização</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        async function carregarPlantios() {
+            try {
+                const response = await fetch('http://localhost:3000/plantios');
+                const plantios = await response.json();
+
+                const tabela = document.querySelector('#table-02 tbody');
+                tabela.innerHTML = '';
+
+                plantios.forEach((plantio) => {
+                    const linha = tabela.insertRow();
+
+                    const dataFormatada = new Date(plantio.Data_Plantio).toLocaleDateString('pt-BR');
+
+                    linha.innerHTML = `
+                        <td>${plantio.Variedade}</td>
+                        <td>${plantio.Quantidade_Plantada}</td>
+                        <td>${dataFormatada}</td>
+                        <td>${plantio.Localizacao}</td>
+                    `;
+                });
+            } catch (error) {
+                console.error('Erro ao carregar plantios:', error);
+                alert('Erro ao carregar a lista de plantios.');
+            }
+        }
+
+        document.getElementById('form-plantio').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const variedade = document.getElementById('variedade').value;
+            const quantidade = document.getElementById('quantidade').value;
+            const dataPlantio = document.getElementById('dataPlantio').value;
+            const localizacao = document.getElementById('localizacao').value;
+
+            try {
+                const response = await fetch('http://localhost:3000/registrarPlantio', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        Variedade: variedade,
+                        Quantidade_Plantada: quantidade,
+                        Data_Plantio: dataPlantio,
+                        Localizacao: localizacao,
+                    }),
+                });
+
+                if (response.ok) {
+                    alert('Registro do plantio realizado com sucesso!');
+                    carregarPlantios();
+                    document.getElementById('form-plantio').reset();
+                } else {
+                    const errorResult = await response.json();
+                    console.error('Erro no registro:', errorResult);
+                    alert(`Erro ao registrar plantio: ${errorResult.msg || response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Erro de conexão ou inesperado:', error);
+                alert('Erro ao tentar comunicar com o servidor.');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', carregarPlantios);
+    </script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Plantio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+
+      background-color: rgb(3, 75, 3);
+    }
+
+    .card {
+      text-align: center;
+      padding: 30px;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 280px;
+    }
+
+    .card h1 {
+      font-size: 32px;
+      margin: 0;
+      color: #111;
+    }
+
+    .card h2 {
+      font-size: 24px;
+      margin: 0;
+      font-weight: normal;
+      color: #444;
+    }
+
+    #total {
+      margin: 40px 0 10px 0;
+      font-size: 60px;
+      font-weight: bold;
+      color: #ff7300;
+    }
+
+    .icon {
+      margin: 10px 0 30px 0;
+    }
+
+    .icon img {
+      width: 60px;
+      height: 60px;
+    }
+
+    .update {
+      font-size: 14px;
+      color: #444;
+    }
+
+    .update span {
+      font-weight: bold;
+      display: block;
+      margin-top: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Plantio</h1>
+    <h2>Mudas</h2>
+
+    <p id="total">0</p>
+
+    <div class="icon">
+      <img src="https://cdn-icons-png.flaticon.com/512/766/766449.png" alt="folha">
+    </div>
+
+    <p class="update">
+      Última atualização
+      <span id="last-update"></span>
+    </p>
+  </div>
+
+  <script>
+    async function atualizarTotalMudas() {
+      try {
+        const response = await fetch('http://localhost:3000/mudas');
+        const data = await response.json();
+
+        const totalMudas = data.total_mudas || 0;
+        const ultimaAtualizacao = data.data_atualizacao || 'Sem atualização';
+
+        document.getElementById('total').textContent = totalMudas;
+        document.getElementById('last-update').textContent = ultimaAtualizacao;
+      } catch (error) {
+        console.error('Erro ao atualizar total de mudas:', error);
+        alert('Erro ao carregar os dados.');
+      }
+    }
+
+    async function adicionarMudas(valor) {
+      try {
+        const response = await fetch('http://localhost:3000/registrarPlantio', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            Variedade: 'Nova Muda',
+            Data_Plantio: new Date().toISOString().split('T')[0],
+            Quantidade_Plantada: valor,
+            Localizacao: 'Bloco C',
+          }),
+        });
+
+        const result = await response.json();
+        if (result.msg === 'Atualizado!') {
+          alert('Mudas adicionadas com sucesso!');
+          atualizarTotalMudas();
+        } else {
+          alert('Erro ao adicionar mudas.');
+        }
+      } catch (error) {
+        console.error('Erro ao adicionar mudas:', error);
+        alert('Erro ao comunicar com o servidor.');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', atualizarTotalMudas);
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Irrigação - AgroCitro</title>
+
+    <link rel="stylesheet" href="./css/style.css">
+
+    <style>
+        .container {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .form-box, .table-box {
+                width: 100%;
+            }
+
+            .table-box {
+                max-width: 100%;
+                margin: 0 auto;
+                overflow-x: auto;
+            }
+
+            .table-box table {
+                width: 100%;
+                font-size: 12px;
+                word-wrap: break-word;
+            }
+
+            .table-box th, .table-box td {
+                padding: 6px;
+                white-space: nowrap;
+            }
+
+            .table-box th {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="logo-bar">
+            <a href="index.html">
+                <div class="logo"><img src="img/Logo.png" alt="logo" width="300px"></div>
+            </a>
+    </div>
+
+    <div class="container">
+        <div class="form-box">
+            <h1>Registrar Irrigação</h1>
+            <form id="form-irrigacao">
+                <div class="form-group">
+                    <label for="codigo">Código do Plantio</label>
+                    <input type="number" name="codigo" id="codigo" placeholder="Ex: Código do plantio">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="horario_inicial">Horário Inicial</label>
+                        <input type="time" name="horario_inicial" id="horario_inicial">
+                    </div>
+                    <div class="form-group">
+                        <label for="horario_final">Horário Final</label>
+                        <input type="time" name="horario_final" id="horario_final">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn">Registrar</button>
+            </form>
+        </div>
+
+        <div class="table-box">
+            <h1>Lista</h1>
+            <table id="table-02">
+                <thead>
+                    <tr>
+                        <th>Código do Plantio</th>
+                        <th>Horário Inicial</th>
+                        <th>Horário Final</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('form-irrigacao').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const codigo = document.getElementById('codigo').value;
+            const horarioInicial = document.getElementById('horario_inicial').value;
+            const horarioFinal = document.getElementById('horario_final').value;
+
+            console.log({ ID_Plantio: codigo, Horario_Inicial: horarioInicial, Horario_Final: horarioFinal });
+
+            try {
+                const response = await fetch('http://localhost:3000/registrarIrrigacao', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        ID_Plantio: codigo,
+                        Horario_Inicial: horarioInicial,
+                        Horario_Final: horarioFinal,
+                    }),
+                });
+
+                const result = await response.json();
+                alert(result.msg);
+
+                if (result.msg === 'Atualizado!') {
+                    carregarLista();
+                }
+            } catch (error) {
+                console.error('Erro ao registrar irrigação:', error);
+                alert('Erro ao registrar irrigação.');
+            }
+        });
+
+        async function carregarLista() {
+            try {
+                const response = await fetch('http://localhost:3000/irrigacao');
+                const irrigacoes = await response.json();
+
+                const tabela = document.querySelector('#table-02 tbody');
+                tabela.innerHTML = '';
+
+                irrigacoes.forEach((irrigacao) => {
+                    const linha = tabela.insertRow();
+                    linha.innerHTML = `
+                        <td>${irrigacao.ID_Plantio}</td>
+                        <td>${irrigacao.Horario_Inicial}</td>
+                        <td>${irrigacao.Horario_Final}</td>
+                    `;
+                });
+            } catch (error) {
+                console.error('Erro ao carregar lista de irrigação:', error);
+                alert('Erro ao carregar lista de irrigação.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', carregarLista);
+    </script>
+</body>
+</html>

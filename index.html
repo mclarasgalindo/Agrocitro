@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    --font-poppins: 'Poppins', sans-serif;
+}
+
+body {
+    font-family: var(--font-poppins);
+    line-height: 1.6;
+    color: black;
+    background-color: rgb(245, 245, 245);
+}
+
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+
+.inicial {
+    background-color: #f3b200;
+    color: #F7F7F7;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+
+nav a {
+    color: #F7F7F7;
+    text-decoration: none;
+    margin-left: 30px;
+    font-weight: 400;
+    transition: color 0.3s, background-color 0.3s;
+}
+
+nav a:hover {
+    color: #FF8C00;
+}
+
+
+.btns {
+    border: 2px solid white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    color: white ;
+    margin-left: 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    background-color: transparent;
+}
+
+.btns:hover {
+    background-color: #FF8C00;
+    color: white ;
+}
+
+
+.content-section {
+    padding: 80px 0;
+}
+
+h1, h2 {
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #00561B;
+}
+
+
+.history-section {
+    background-color: #FFFFFF;
+}
+
+.history-section h1 {
+    font-size: 44px;
+    border-bottom: 4px solid #FF8C00;
+    display: inline-block;
+    padding-bottom: 5px;
+    margin-bottom: 30px;
+}
+
+.texto-intro, .outro-texto {
+    font-size: 18px;
+    margin-bottom: 25px;
+}
+
+.meio-texto {
+    background-color: #00561B;
+    color:  #F7F7F7;
+    font-size: 24px;
+    font-style: italic;
+    font-weight: 600;
+    padding: 30px;
+    margin: 40px 0;
+    text-align: center;
+    border-left: 8px solid #FF8C00;
+}
+
+
+.technology-section {
+    background-color:  #F7F7F7;
+    padding: 100px 0;
+}
+
+.tech-flex {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.tech-text {
+    flex: 1;
+}
+
+.tech-image-placeholder {
+    flex: 1;
+    min-height: 250px;
+    background-position: center;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    width: 7%;
+    height: auto;
+    
+}
+
+.img-principal{
+    border: solid 0px;
+    border-radius: 10%;
+}
+
+.tech-highlight {
+    color: #FF8C00;
+    font-weight: 700;
+}
+
+.btn-mudas {
+    display: inline-block;
+    background-color: #FF8C00;
+    color: #F7F7F7;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: 600;
+    margin-top: 20px;
+    letter-spacing: 1px;
+    transition: background-color 0.3s;
+}
+
+.btn-mudas:hover {
+    background-color: #00561B;
+}
+
+
+footer {
+    background-color: black;
+    color: #F7F7F7;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        flex-direction: column;
+        padding: 15px 20px;
+    }
+
+    nav {
+        margin-top: 10px;
+    }
+
+    nav a {
+        margin: 0 10px;
+    }
+
+    .tech-flex {
+        flex-direction: column;
+    }
+
+    .tech-image-placeholder {
+        min-height: 300px;
+    }
+    @media (max-width: 768px) {
+        .inicial {
+            flex-direction: column;
+            padding: 15px 20px;
+        }
+
+        .logo img {
+            max-width: 150px;
+        }
+
+        nav {
+            margin-top: 10px;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        nav a {
+            margin: 0;
+            text-align: center;
+        }
+
+        .tech-flex {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .tech-image-placeholder {
+            min-height: 200px;
+        }
+
+        .history-section h1 {
+            font-size: 32px;
+        }
+
+        .texto-intro, .outro-texto {
+            font-size: 16px;
+        }
+
+        .meio-texto {
+            font-size: 20px;
+            padding: 20px;
+        }
+    }
+}
+
+    </style>
+    <style>
+    @media (max-width: 768px) {
+        .inicial {
+            flex-direction: column;
+            padding: 15px 20px;
+            align-items: center;
+        }
+
+        .logo img {
+            max-width: 150px;
+        }
+
+        nav {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        nav a {
+            margin: 0;
+            text-align: center;
+            width: auto;
+        }
+
+        .btns {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: 2px solid white;
+            border-radius: 5px;
+            background-color: transparent;
+            color: white;
+        }
+
+        .btns:hover {
+            background-color: #FF8C00;
+            color: white;
+        }
+    }
+</style>
+    <style>
+    .tech-flex {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .tech-image-placeholder {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .img-principal {
+        border: solid 0px;
+        border-radius: 10%;
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>História</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="inicial">
+        <a href="#">
+            <div class="logo"><img src="img/Logo.png" alt="logo" width="300px"></div>
+        </a>
+        <nav>
+            <a href="http://localhost:3000/plantio.html" class="btns">Plantio</a>
+            <a href="http://localhost:3000/irrigacao.html" class="btns">Irrigação</a>
+            <a href="http://localhost:3000/colheita.html" class="btns">Colheita</a>
+            
+        </nav>
+    </header>
+
+    <section id="historia" class="content-section history-section">
+        <div class="container">
+            <h1>Nossa História</h1>
+            <p class="texto-intro">
+                A AgroCitro é uma fazenda de laranjas orgânicas, conhecida por sua qualidade superior e práticas <strong>sustentáveis</strong>. Localizada em um vale ensolarado, nos destacamos como fornecedores preferenciais da indústria de suco de laranja.
+            </p>
+            
+            <div class="meio-texto">
+                "Com uma equipe comprometida, a AgroCitro busca constantemente <strong>inovação</strong> e <strong>excelência</strong>."
+            </div>
+
+            <p class="outro-texto">
+                Atualmente, enfrentamos o desafio de <strong>modernizar</strong> nossos processos de gestão e fortalecer o relacionamento com os clientes, mantendo sempre nosso compromisso inabalável com a qualidade e a sustentabilidade.
+            </p>
+        </div>
+    </section>
+
+    <section id="tecnologia" class="content-section technology-section">
+        <div class="container tech-flex">
+            <div class="tech-text">
+                <h2>Crescendo com <span class="tech-highlight">Tecnologia</span></h2>
+                <p>
+                    A inovação leva nossa produção a novos patamares. Investimos em ferramentas digitais e práticas de gestão modernas para garantir a rastreabilidade e a eficiência, do plantio à entrega.
+                </p>
+                <a href="http://localhost:3000/mudas.html" class="btn-mudas">MUDAS</a>
+            </div>
+            <div class="tech-image-placeholder" >
+                <img class="img-principal" src="img/plantacao.png" alt="plantacao" width="600px">
+            </div>
+        </div>
+    </section>
+
+    <footer id="contato">
+        <div class="container">
+            <p>2025 AgroCitro. Laranjas orgânicas, inovação e excelência.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
